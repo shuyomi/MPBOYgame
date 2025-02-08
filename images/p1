@@ -1,0 +1,70 @@
+// script.js
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+canvas.width = canvas.offsetWidth;
+canvas.height = canvas.offsetHeight;
+
+let isJumping = false;
+let dinoY = canvas.height - 90;
+let velocity = 0;
+
+// 이미지 객체 생성
+const dinoImage = new Image();
+dinoImage.src = "images/boy.png";
+
+dinoImage.onload = () => {
+    console.log("Dino image loaded successfully!");
+  };
+
+// 캐릭터 그리기
+function drawDino() {
+    const dinoWidth = 90; // 캐릭터 이미지 너비
+    const dinoHeight = 90; // 캐릭터 이미지 높이
+    ctx.drawImage(dinoImage, 50, dinoY, dinoWidth, dinoHeight);
+}
+
+// 점프 로직
+function jump() {
+  if (!isJumping) {
+    isJumping = true;
+    velocity = -10;
+  }
+}
+
+// 장애물 그리기 (간단한 예제)
+let obstacleX = canvas.width;
+function drawObstacle() {
+  ctx.fillStyle = "red";
+  ctx.fillRect(obstacleX, canvas.height - 30, 30, 30);
+  obstacleX -= 5;
+
+  if (obstacleX < -30) {
+    obstacleX = canvas.width;
+  }
+}
+
+// 게임 루프
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // 점프 업데이트
+  if (isJumping) {
+    dinoY += velocity;
+    velocity += 0.5;
+    if (dinoY >= canvas.height - 90) {
+      dinoY = canvas.height - 90;
+      isJumping = false;
+    }
+  }
+
+  drawDino();
+  drawObstacle();
+
+  requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+// 모바일 점프 버튼 연결
+document.getElementById("jumpBtn").addEventListener("click", jump);
