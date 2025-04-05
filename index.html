@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <title>MPBOY</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+        .container {
+            text-align: center;
+            width: 390px;
+            height: 600px;
+  
+            background-color: #c0c0c0;
+        }
+
+        /* 모달 스타일 */
+  .modal {
+    position: absolute;
+    width: 300px;
+    height: 100px;
+    background-image: url('images/startbtn.png'); /* 모달 배경 이미지 */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    top: 300px;
+    border-radius: 3px;
+    margin-left: 40px;
+
+  }
+
+  /* 버튼 스타일 */
+  .start-button {
+    padding: 20px 40px;
+    background-color: transparent;
+    font-size: 24px;
+    font-family: 'Press Start 2P', cursive;
+    color: white;
+    border: none;
+    cursor: pointer;
+    top: 20px;
+    position: relative;
+    /*transition: background-color 0.3s;*/
+    margin-left: 12px;
+
+   
+  }
+
+  #endModal {
+    position: absolute;
+    width: 280px;
+    height: 100px;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    color: white;
+    display: none;
+    background-size: contain;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    top: 300px;  /* startModal과 동일한 위치로 설정 */
+    left: 40%;
+    transform: translateX(-50%);  /* 중앙에 배치되도록 설정 */
+    border-radius: 3px;  /* startModal과 동일한 border-radius 값 */
+    padding: 20px;
+  
+  }
+  
+  #finalScore {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 20px;
+    text-align: center;
+    position: relative;
+   margin-top: 35px;
+   color: rgb(255, 144, 25);
+  }
+
+  .mini-box {
+    width: 100%;
+    height: 30px;
+    background: #0100AA;
+    top: -38x; 
+     position: relative;
+     /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.539);*/
+    
+  }
+  .mini-box .text {
+    position: absolute;
+    color: #ffffff;
+    font-size: 15px;
+    text-align: letf;
+    margin-right: auto;
+    padding-left: 8px;
+    top: 30%;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  .mini-box img {
+    position: absolute; /* 절대 위치로 설정 */
+    right: 0; /* 미니박스의 오른쪽 끝으로 이동 */
+    top: 50%; /* 세로 가운데 정렬 */
+    transform: translateY(-50%); /* 세로 가운데 정확히 맞추기 */
+    max-width: 100px; /* 이미지 크기 제한 */
+    max-height: 100%; /* 높이 비율에 맞추기 */
+    object-fit: contain; /* 비율 유지하며 크기 조정 */
+    margin-left: 32px;
+}
+  .bar {
+    width: 100%;
+    height: 1px; /* 실선 두께 */
+    background-color: rgb(255, 255, 255); /* 하얀색 실선 */
+    top: -1px;
+    position: relative;
+   
+    
+  } 
+
+  
+  .bar2 {
+    width: 100%;
+
+    height: 2px; /* 실선 두께 */
+    background-color: rgb(255, 255, 255); /* 하얀색 실선 */
+    margin-bottom: -40px;
+    
+   
+  }
+
+
+  .bar3 {
+    width: 100%;
+    height: 1px; /* 실선 두께 */
+    background-color: rgb(255, 255, 255); /* 하얀색 실선 */
+    margin-bottom: 5px;
+    position: relative;
+    bottom:-23px;
+   
+  }
+
+  .image-between-bars {
+    width: 50%;
+    height: 50px;
+    margin-bottom: 5px;
+    background-image: url('images/text2.png'); /* 이미지 경로 */
+    background-size: cover; /* 이미지 크기 조정 */
+    margin-right: 140px;
+  }
+
+
+  .game-container {
+    position: relative;
+    width: 100%;         /* 너비를 100%로 설정하여 화면에 맞게 조정 */
+    height: 450px;
+    background-image: url('images/back.jpg');
+    background-size: cover;
+    background-position: center; /* 이미지를 중앙에 정렬 */
+    background-repeat: no-repeat; /* 이미지를 반복하지 않도록 설정 */
+    bottom: -40px;
+    overflow: hidden; /* 화면 밖으로 나가는 요소 숨김 */
+    box-sizing: border-box; /* 테두리와 패딩을 포함한 크기 계산 */
+}
+  
+  canvas {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #333;
+    display: block; 
+  }
+
+  .button-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 130px;
+    top: 40px;
+    display: flex;
+    justify-content: center; /* 버튼들을 가운데로 정렬 */
+    padding: 0 20px;
+    gap: 100px;
+
+
+}
+
+.button {
+    width: 45px;
+    height: 45px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent; /* 배경을 투명하게 설정 */
+}
+
+#leftButton {
+     background-image: url('images/left.png');  왼쪽 버튼 이미지 
+   /*background-color:#c0c0c0;*/
+}
+
+#rightButton {
+     background-image: url('images/right.png');  오른쪽 버튼 이미지 
+   /* background-color:#c0c0c0;*/
+}
+
+
+    </style>
+</head>
+<body>
+    <audio id="backgroundMusic" autoplay>
+        <source src="assets/music/Trip.mp3" type="audio/mp3">
+      </audio>
+    
+        <div class="container">
+         <div class="mini-box">
+            <div class="text">MPBOY...</div>
+            <img src="images/icon.png" alt="iconimage">
+        </div>
+        <div class="bar"></div>
+        <div class="bar3"></div>
+        <div class="image-between-bars"></div>
+        
+        <div class="bar2"></div>
+        
+        <!-- 게임 시작 모달 -->
+        <div class="modal" id="startModal">
+          <button class="start-button" id="startButton">START</button>
+        </div>
+    
+        <!-- 게임 종료 후 모달 -->
+        <div class="modal" id="endModal">
+          <div id="finalScore"></div> <!-- 점수 표시를 위한 div -->
+        </div>
+          
+          
+        <div class="game-container">
+          <canvas id="gameCanvas"></canvas>
+      </div>
+    
+    
+    
+      <div class="button-container">
+        <button id="leftButton" class="button" aria-label="Move Left"></button>
+        <button id="rightButton" class="button" aria-label="Move Right"></button>
+    </div>
+    </div>
+    
+    <script src="script.js">
+     
+    </script>
+</body>
+</html>
